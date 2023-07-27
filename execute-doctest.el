@@ -28,5 +28,5 @@
          (concat "python use_finder.py "
                  (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
                  " "
-                 (number-to-string (- lineno 1))))
+                 (number-to-string lineno)))
       (message "Did not find a doctest"))))

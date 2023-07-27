@@ -9,7 +9,8 @@ def execute_doctest(module_path, lineno):
     doctests = finder.find(module)
     for dt in doctests:
         print(f"Found doctest at line {dt.lineno}")
-        if dt.lineno == lineno:
+        # doctest starts line numbering at zero so we have to correct for that
+        if dt.lineno == lineno - 1:
             break
     else:
         print("Did not find a matching doctest")
