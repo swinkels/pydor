@@ -20,4 +20,4 @@ def execute_doctest(module_path, lineno):
 
 
 if __name__ == '__main__':
-    execute_doctest("module_under_test", int(sys.argv[2]))
+    execute_doctest(sys.argv[1], int(sys.argv[2]))

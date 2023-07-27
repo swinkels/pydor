@@ -24,5 +24,9 @@
   (interactive)
   (let ((lineno (find-delimiter-multiline-docstring)))
     (if (> lineno 0)
-        (compile (concat "python use_finder.py module_under_test " (number-to-string (- lineno 1))))
+        (compile
+         (concat "python use_finder.py "
+                 (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
+                 " "
+                 (number-to-string (- lineno 1))))
       (message "Did not find a doctest"))))
