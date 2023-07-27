@@ -1,9 +1,12 @@
+;;; pydor.el --- Provide command to run the Python doctest at point
+
+;; Version: 0.0.0
+;; Package-Requires:
+
+(provide 'pydor)
+
 (defun delimits-multiline-docstring(line)
   (not (eq (string-match-p "^[[:blank:]]*\"\"\"" line) nil)))
-
-(delimits-multiline-docstring "hello")
-(delimits-multiline-docstring "\"\"\"Return `None`.")
-(delimits-multiline-docstring "    \"\"\"Return `None`.")
 
 (defun current-line()
   (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
@@ -30,3 +33,5 @@
                  " "
                  (number-to-string lineno)))
       (message "Did not find a doctest"))))
+
+;;; pydor.el ends here
