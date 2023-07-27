@@ -1,0 +1,14 @@
+- [ ] only bind ~execute-doctest~ for Python mode
+- [ ] rename repo dir to ~execute-py-doctest~
+- [ ] support ~verbose~ option
+- [ ] use logging instead of ~print~
+- [ ] properly parse command-line parameters
+- [ ] setup proper Python development environment using Poetry
+- [ ] let Lisp code use full path to ~use_finder.py~
+- [ ] format Lisp code according to Batsov style guide
+- [ ] make it work for Python modules in a subdirectory
+- [ ] setup proper Emacs Lisp development environment using Cask
+
+* Done
+
+- [X] retrieve module name in script
