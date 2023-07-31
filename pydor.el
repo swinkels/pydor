@@ -1,31 +1,41 @@
 ;;; pydor.el --- Provide command to run the Python doctest at point
 
+;; Author: P.C.J. Swinkels <swinkels.pieter@yahoo.com>
+;; Created: 27 July 2023
+
 ;; Version: 0.0.0
-;; Package-Requires:
+
+;; URL: https://github.com/swinkels/pydor
+
+;;; Commentary:
+
+;; Needs to be filled in, for now only present to satisfy the lint...
+
+;;; Code:
 
 (provide 'pydor)
 
-(defun delimits-multiline-docstring(line)
+(defun pydor--delimits-multiline-docstring(line)
   (not (eq (string-match-p "^[[:blank:]]*\"\"\"" line) nil)))
 
-(defun current-line()
+(defun pydor--current-line()
   (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
 
-(defun move-to-previous-line()
+(defun pydor--move-to-previous-line()
   (eq (forward-line -1) 0))
 
-(defun find-delimiter-multiline-docstring()
+(defun pydor--find-delimiter-multiline-docstring()
   (save-excursion
-    (while (and (not (delimits-multiline-docstring (current-line)))
-                (move-to-previous-line))
+    (while (and (not (pydor--delimits-multiline-docstring (pydor--current-line)))
+                (pydor--move-to-previous-line))
       nil)
-    (if (delimits-multiline-docstring (current-line))
+    (if (pydor--delimits-multiline-docstring (current-line))
         (line-number-at-pos)
       -1)))
 
-(defun execute-doctest()
+(defun pydor-execute-doctest()
   (interactive)
-  (let ((lineno (find-delimiter-multiline-docstring)))
+  (let ((lineno (pydor--find-delimiter-multiline-docstring)))
     (if (> lineno 0)
         (compile
          (concat "python use_finder.py "

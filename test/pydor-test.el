@@ -3,6 +3,6 @@
 ;;; pydor-test.el --- Tests for pydor
 
 (ert-deftest test-delimits-multiline-docstring()
-  (should (not (delimits-multiline-docstring "hello")))
-  (should (delimits-multiline-docstring "\"\"\"Return `None`."))
-  (should (delimits-multiline-docstring "    \"\"\"Return `None`.")))
+  (should (not (pydor--delimits-multiline-docstring "hello")))
+  (should (pydor--delimits-multiline-docstring "\"\"\"Return `None`."))
+  (should (pydor--delimits-multiline-docstring "    \"\"\"Return `None`.")))
