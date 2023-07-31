@@ -15,6 +15,14 @@
 
 (provide 'pydor)
 
+(defvar pydor--install-directory
+  (file-name-directory (if load-file-name load-file-name buffer-file-name))
+  "*Path to the directory that contains the current package.
+
+This directory also contains the Python script that finds the
+doctests and runs the selected one. This allows us to call that
+script from anywhere")
+
 (defun pydor--delimits-multiline-docstring(line)
   (not (eq (string-match-p "^[[:blank:]]*\"\"\"" line) nil)))
 
@@ -29,19 +37,23 @@
     (while (and (not (pydor--delimits-multiline-docstring (pydor--current-line)))
                 (pydor--move-to-previous-line))
       nil)
-    (if (pydor--delimits-multiline-docstring (current-line))
+    (if (pydor--delimits-multiline-docstring (pydor--current-line))
         (line-number-at-pos)
       -1)))
 
+(defun pydor--build-execute-doctest-spec()
+  (let ((lineno (pydor--find-delimiter-multiline-docstring)))
+    (when (> lineno 0)
+        (concat "python " pydor--install-directory "use_finder.py "
+                (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
+                " "
+                (number-to-string lineno)))))
+
 (defun pydor-execute-doctest()
   (interactive)
-  (let ((lineno (pydor--find-delimiter-multiline-docstring)))
-    (if (> lineno 0)
-        (compile
-         (concat "python use_finder.py "
-                 (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
-                 " "
-                 (number-to-string lineno)))
+  (let ((call-script-command (pydor--build-execute-doctest-spec)))
+    (if call-script-command
+        (compile call-script-command)
       (message "Did not find a doctest"))))
 
 ;;; pydor.el ends here
