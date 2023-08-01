@@ -14,11 +14,15 @@
 (ert-deftest test-build-spec-for-single-module-in-another-directory()
   (find-file "test/test-python-modules/single_module.py")
   (beginning-of-buffer)
-  (next-line 6)
+  (next-line 8)
   (message "repo-root-directory: %s" repo-root-directory)
   (let ((spec-components (split-string (pydor--build-execute-doctest-spec))))
     (should (equal (nth 0 spec-components) "python"))
     (should (equal (nth 1 spec-components)
                    (file-name-concat repo-root-directory "use_finder.py")))
-    (should (equal (nth 2 spec-components) "single_module"))
-    (should (equal (nth 3 spec-components) "5"))))
+    (should (equal (nth 2 spec-components)
+                   (file-name-concat repo-root-directory
+                                     "test"
+                                     "test-python-modules"
+                                     "single_module.py")))
+    (should (equal (nth 3 spec-components) "7"))))

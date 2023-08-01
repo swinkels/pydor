@@ -45,7 +45,7 @@ script from anywhere")
   (let ((lineno (pydor--find-delimiter-multiline-docstring)))
     (when (> lineno 0)
         (concat "python " pydor--install-directory "use_finder.py "
-                (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
+                (buffer-file-name)
                 " "
                 (number-to-string lineno)))))
 
