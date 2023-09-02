@@ -4,6 +4,8 @@
 
 (package-file "pydor.el")
 
+(files "use_finder.py")
+
 (script "test" "echo \"Error: no test specified\" && exit 1")
 
 (source "gnu")
