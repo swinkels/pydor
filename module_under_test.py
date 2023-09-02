@@ -7,6 +7,7 @@
 
 import doctest
 
+
 def return_none():
 
     """Return `None`.
@@ -15,10 +16,10 @@ def return_none():
     >>> assert v is None, "function should have returned None"
 
     >>> v = return_none()
-    >>> assert v is None, "function should have returned None"
+    >>> assert v is not None, "function should have returned None"
 
     """
-    return 1  # Oops
+    return None
 
 docstring = """Return `None`.
 

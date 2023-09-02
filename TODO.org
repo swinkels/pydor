@@ -5,7 +5,14 @@
 - [ ] properly parse command-line parameters
 - [ ] setup proper Python development environment using Poetry
 - [ ] format Lisp code according to Batsov style guide
+- [ ] make it work for Python modules in another package (when package is not in search path)
 - [ ] for tests, leave visited file on teardown
+
+- [ ] make it work for Python modules in another package (when package is in search path)
+
+This should work but real-world testing is necessary.
+
+- [ ] add README
 
 * Done
 
