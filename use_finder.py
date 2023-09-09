@@ -47,7 +47,9 @@ def execute_doctest(module_path: str, lineno: str):
 
     print(f"Run doctest at line {dt.lineno + 1}")
     runner = doctest.DocTestRunner(
-        checker=None, verbose=None, optionflags=doctest.FAIL_FAST
+        checker=None,
+        verbose=None,
+        optionflags=doctest.FAIL_FAST | doctest.NORMALIZE_WHITESPACE,
     )
     runner.run(dt)
 
