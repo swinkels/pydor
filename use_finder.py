@@ -1,3 +1,4 @@
+import argparse
 import doctest
 import importlib
 import logging
@@ -148,5 +149,28 @@ def get_module_name(
     return module_name
 
 
+def parse_args(argv):
+    parser = argparse.ArgumentParser(
+        prog=f"python {argv[0]}",
+        description="Run the tests in the docstring in MODULE_PATH at LINENO",
+        exit_on_error=False,
+    )
+    parser.add_argument("module_path", help="absolute path to the module")
+    parser.add_argument(
+        "lineno", help="line number in a line of the docstring (1-based)", type=int
+    )
+    parser.add_argument(
+        "--pythonpath",
+        help="add DIRECTORY to PYTHONPATH",
+        metavar="DIRECTORY",
+        action="append",
+        default=[],
+    )
+
+    return parser.parse_args(argv[1:])
+
+
 if __name__ == "__main__":
-    execute_doctest(sys.argv[1], int(sys.argv[2]))
+    namespace = parse_args(sys.argv)
+    sys.path = namespace.pythonpath + sys.path
+    execute_doctest(namespace.module_path, namespace.lineno)

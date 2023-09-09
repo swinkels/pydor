@@ -26,3 +26,15 @@
                                      "test-python-modules"
                                      "single_module.py")))
     (should (equal (nth 3 spec-components) "7"))))
+
+(ert-deftest test-build-pythonpath-parameters-when-specified()
+  (let ((pydor-pythonpath-directories
+         '("/home/user/repo/""/home/user/repo/src")))
+    (should (equal
+             " --pythonpath /home/user/repo/ --pythonpath /home/user/repo/src"
+             (pydor--build-pythonpath-parameters)))))
+
+(ert-deftest test-build-pythonpath-parameters-when-missing()
+  (let ((pydor-pythonpath-directories nil))
+    (should (equal "" (pydor--build-pythonpath-parameters))))
+  )

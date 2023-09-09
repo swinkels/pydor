@@ -15,6 +15,12 @@
 
 (provide 'pydor)
 
+(defvar pydor-pythonpath-directories nil
+  "list of absolute directory paths to search for module files.
+
+The paths in this list will be added to the search path before
+the module with the doctests is loaded.")
+
 (defvar pydor--install-directory
   (file-name-directory (if load-file-name load-file-name buffer-file-name))
   "*Path to the directory that contains the current package.
@@ -28,6 +34,10 @@ script from anywhere")
 
 (defun pydor--current-line()
   (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
+
+(defun pydor--build-pythonpath-parameters()
+  (mapconcat
+   (lambda (x) (concat " --pythonpath " x)) pydor-pythonpath-directories ""))
 
 (defun pydor--move-to-previous-line()
   (eq (forward-line -1) 0))
@@ -53,7 +63,8 @@ script from anywhere")
   (interactive)
   (let ((call-script-command (pydor--build-execute-doctest-spec)))
     (if call-script-command
-        (compile call-script-command)
+        (compile
+         (concat call-script-command " " (pydor--build-pythonpath-parameters)))
       (message "Did not find a doctest"))))
 
 ;;; pydor.el ends here

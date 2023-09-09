@@ -2,20 +2,18 @@
 - [ ] rename repo dir to ~pydor~
 - [ ] support ~verbose~ option
 - [ ] use logging instead of ~print~
-- [ ] properly parse command-line parameters
 - [ ] setup proper Python development environment using Poetry
 - [ ] format Lisp code according to Batsov style guide
-- [ ] make it work for Python modules in another package (when package is not in search path)
 - [ ] for tests, leave visited file on teardown
-
-- [ ] make it work for Python modules in another package (when package is in search path)
-
-This should work but real-world testing is necessary.
-
 - [ ] add README
+- [ ] support raw docstrings, viz. ~r"""..."""~
+- [ ] allow configuration of doctest options such as ~doctest.NORMALIZE_WHITESPACE~
 
 * Done
 
+- [X] make it work for Python modules in another package (when package is in search path)
+- [X] allow configuration of additional sys paths
+- [X] properly parse command-line parameters
 - [X] make it work for Python modules in another subdirectory
 - [X] let Lisp code use full path to ~use_finder.py~
 - [X] setup proper Emacs Lisp development environment using Cask
