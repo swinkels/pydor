@@ -49,6 +49,34 @@ This expression establishes two things:
 - pydor will be loaded when you call pydor-execute-doctest for the first time;
 - function ~pydor-execute-doctest~ is bound to ~, t d~ in Python mode.
 
+* Adding directories to your Python sys.path
+
+pydor imports the module that contains the docstring at point. For this to
+succeed, the module should be in a directory of the Python ~sys.path~ or it
+should be part of a package in such a directory. If that is not the case, the
+import will fail and pydor will abort. This is where variable
+~pydor-pythonpath-directories~ comes in: before pydor tries to import the
+module, it extends ~sys.path~ with the directories in this list.
+
+To give an example, I often have several Python scripts in the root of my repo
+to try out things in the Python REPL. In general, that directory is not a
+directory of ~sys.path~ and pydor won't be able to import these scripts. To help
+pydor, I set ~pydor-pythonpath-directories~ as a directory-local variable in
+file ~.dir-locals.el~ in the root of the repo:
+#+begin_src lisp
+;;; Directory Local Variables
+;;; For more information see (info "(emacs) Directory Variables")
+
+((python-mode . ((pydor-pythonpath-directories . ("/home/swinkels/repo/oss/pydor")))))
+#+end_src
+Note that the paths on ~pydor-pythonpath-directories~ should be absolute.
+
+Finally, pydor tries to import the module with its full module name, so
+~package.subpackage.module~. To determine that name, it assumes that each
+directory in the Python package has an ~__init__.py~. This means that pydor will
+only work with regular Python packages and not with namespace packages, which
+don't have that file.
+
 * Development
 
 The Emacs part of pydor is developed using [[https://emacs-eask.github.io/][Emacs Eask]], a "CLI for building,

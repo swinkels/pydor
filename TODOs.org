@@ -4,6 +4,7 @@
 - [ ] for tests, leave visited file on teardown
 - [ ] support raw docstrings, viz. ~r"""..."""~
 - [ ] allow configuration of doctest options such as ~doctest.NORMALIZE_WHITESPACE~
+- [ ] support namespace packages
 - [ ] setup proper Python development environment
 - [ ] describe development of Python part of ~pydor~
 
