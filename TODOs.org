@@ -1,15 +1,17 @@
-- [ ] only bind ~execute-doctest~ for Python mode
-- [ ] rename repo dir to ~pydor~
 - [ ] support ~verbose~ option
 - [ ] use logging instead of ~print~
-- [ ] setup proper Python development environment using Poetry
 - [ ] format Lisp code according to Batsov style guide
 - [ ] for tests, leave visited file on teardown
 - [ ] support raw docstrings, viz. ~r"""..."""~
 - [ ] allow configuration of doctest options such as ~doctest.NORMALIZE_WHITESPACE~
+- [ ] setup proper Python development environment
 - [ ] describe development of Python part of ~pydor~
 
 * Done
+
+- [X] only bind ~execute-doctest~ for Python mode
+
+This has been described in the README.
 
 - [X] add README
 - [X] make it work for Python modules in another package (when package is in search path)
