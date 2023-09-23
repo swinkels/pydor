@@ -1,0 +1,70 @@
+This repo contains Emacs package pydor, which is short for "Python doctest
+runner". This package lets you execute the Python doctests in the docstring
+at point.
+
+* Background
+
+I use Emacs configuration framework [[https://develop.spacemacs.org/][Spacemacs]] - its develop branch to be
+precise. That framework configures several key bindings to run Python unit
+tests, such as "run test at point" and "run tests in current module". However,
+it lacks functions to run doctests. This package provides a function to run the
+doctests in the docstring at point.
+
+* Prerequisites
+
+pydor is implemented in Emacs Lisp and Python. It uses
+- Python to find & run all doctests in a docstring in a given Python module and
+  at a given line, and
+- Emacs Lisp to call that Python code for the docstring at point.
+
+pydor has been developed using Emacs 28.1, Python 3.11.3 on Manjaro Linux
+23.0.0. Probably it will work with older (or newer) Emacs and Python versions,
+but that hasn't been tested explicitly.
+
+* Installation when using Spacemacs
+
+As mentioned, I use Spacemacs so I provide the installation instructions for
+that context. It should be relatively straightforward to adapt these
+instructions for "plain Emacs".
+
+Spacemacs will automatically retrieve the package from its GitHub repo if you
+add the following entry to the list of "additional packages" in ~~/.spacemacs~:
+#+begin_src emacs-lisp
+   dotspacemacs-additional-packages
+   `(
+     (pydor :location (recipe :fetcher github :repo "swinkels/pydor" :files ("pydor.el" "use_finder.py"))
+     )
+#+end_src
+
+At this point the package will be available to Spacemacs but will not yet be
+loaded. The following use-package expression for dotspacemacs/user-config in
+~~/.spacemacs~ takes care of that:
+#+begin_src emacs-lisp
+(use-package pydor
+  :commands (pydor-execute-doctest)
+  :init
+    (spacemacs/set-leader-keys-for-major-mode 'python-mode "td" 'pydor-execute-doctest))
+#+end_src
+This expression establishes two things:
+- pydor will be loaded when you call pydor-execute-doctest for the first time;
+- function ~pydor-execute-doctest~ is bound to ~, t d~ in Python mode.
+
+* Development
+
+The Emacs part of pydor is developed using [[https://emacs-eask.github.io/][Emacs Eask]], a "CLI for building,
+running, testing, and managing your Emacs Lisp dependencies". For information
+about the installation of Eask I refer to [[https://emacs-eask.github.io/Getting-Started/Install-Eask/][its documentation]]. In this README I
+only show how to use Eask for the development of pydor.
+
+In the directory of your clone of pydor, execute the following command to
+download its Emacs Lisp development dependencies and run the Emacs Lisp unit
+tests:
+#+BEGIN_SRC Shell-script
+$> eask test ert-runner -L . -L test
+#+END_SRC
+If you want to add unit tests to pydor, place them in subdirectory ~test/~.
+
+There is a Makefile in the root of the repo that offers several targets as
+shortcuts to these Eask commands. The Eask command above is accessible as target
+~unit-test~ of the Makefile. This is the default target, so just calling ~make~
+runs the unit tests.

@@ -5,12 +5,13 @@
 - [ ] setup proper Python development environment using Poetry
 - [ ] format Lisp code according to Batsov style guide
 - [ ] for tests, leave visited file on teardown
-- [ ] add README
 - [ ] support raw docstrings, viz. ~r"""..."""~
 - [ ] allow configuration of doctest options such as ~doctest.NORMALIZE_WHITESPACE~
+- [ ] describe development of Python part of ~pydor~
 
 * Done
 
+- [X] add README
 - [X] make it work for Python modules in another package (when package is in search path)
 - [X] allow configuration of additional sys paths
 - [X] properly parse command-line parameters
