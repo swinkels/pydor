@@ -1,0 +1,7 @@
+# Emacs
+
+/.eask/
+
+# Python
+
+__pycache__/
