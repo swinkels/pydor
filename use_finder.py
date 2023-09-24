@@ -19,18 +19,21 @@ def execute_doctest(module_path: str, lineno: str):
     """
     path = pathlib.Path(module_path)
 
+    logger.debug("Module has path %s", module_path)
+
     package_path = get_package_path(
         path, lambda directory: (directory / "__init__.py").exists()
     )
-    print(f"Package path: {package_path}")
+    logger.debug("Module has package path %s", package_path)
+
     module_name = get_module_name(pathlib.Path.cwd(), sys.path, path, package_path)
     if module_name is None:
-        print(
-            f"Unable to import module: no sys.path entry completes package path "
-            f"{package_path}"
+        logger.error(
+            "Unable to import module: no sys.path entry completes package path"
         )
         sys.exit(1)
-    print(f"Module name: {module_name}")
+
+    logger.info("Import module as '%s'", module_name)
 
     module = importlib.import_module(module_name)
 
@@ -38,14 +41,13 @@ def execute_doctest(module_path: str, lineno: str):
     for dt in doctests:
         # doctest starts line numbering at 0 whereas Emacs starts line
         # numbering at 1: here we correct for that
-        print(f"Found doctest at line {dt.lineno + 1}")
         if dt.lineno + 1 == int(lineno):
             break
     else:
-        print("Did not find a matching doctest")
-        return None
+        logger.error("Unable to find matching doctests")
+        sys.exit(1)
 
-    print(f"Run doctest at line {dt.lineno + 1}")
+    logger.info("Run doctests in docstring at line %d of %s", dt.lineno + 1, module_name)
     runner = doctest.DocTestRunner(
         checker=None,
         verbose=None,
@@ -132,21 +134,27 @@ def get_module_name(
     for path in map(pathlib.Path, sys_path):
         # if the path is relative, make the path absolute with respect to the
         # given current working directory
+        logger.debug(
+            "Check if module seems importable from sys.path directory %s", path
+        )
         if not path.is_absolute():
             path = cwd / path
 
-        if module_path.is_relative_to(path):
-            logger.debug("Found candidate path %s", path)
+        if not module_path.is_relative_to(path):
+            logger.debug("No, module path is not below sys.path directory")
+            continue
 
-            relative_module_path = module_path.relative_to(path)
-            logger.debug("Found relative path %s", relative_module_path)
+        relative_module_path = module_path.relative_to(path)
 
-            if relative_module_path == package_path:
-                module_name = ".".join(relative_module_path.parts[:-1])
-                leading_dot = "." if module_name else ""
-                module_name += f"{leading_dot}{relative_module_path.stem}"
-                logger.debug("Found module name %s", module_name)
-                break
+        if relative_module_path != package_path:
+            logger.debug(
+                "Package path of module is not adjacent to this sys.path directory"
+            )
+        else:
+            module_name = ".".join(relative_module_path.parts[:-1])
+            leading_dot = "." if module_name else ""
+            module_name += f"{leading_dot}{relative_module_path.stem}"
+            break
 
     return module_name
 
@@ -173,6 +181,7 @@ def parse_args(argv):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(format="%(message)s", level=logging.INFO)
     namespace = parse_args(sys.argv)
     sys.path = namespace.pythonpath + sys.path
     execute_doctest(namespace.module_path, namespace.lineno)

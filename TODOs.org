@@ -1,5 +1,3 @@
-- [ ] support ~verbose~ option
-- [ ] use logging instead of ~print~
 - [ ] format Lisp code according to Batsov style guide
 - [ ] for tests, leave visited file on teardown
 - [ ] support raw docstrings, viz. ~r"""..."""~
@@ -7,8 +5,14 @@
 - [ ] support namespace packages
 - [ ] setup proper Python development environment
 - [ ] describe development of Python part of ~pydor~
+- [ ] support ~verbose~ to set logging to DEBUG option
 
 * Done
+
+- [X] use logging instead of ~print~
+
+I also updated the log message so the message actually tells a story to the
+user.
 
 - [X] only bind ~execute-doctest~ for Python mode
 
