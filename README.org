@@ -96,3 +96,14 @@ There is a Makefile in the root of the repo that offers several targets as
 shortcuts to these Eask commands. The Eask command above is accessible as target
 ~unit-test~ of the Makefile. This is the default target, so just calling ~make~
 runs the unit tests.
+
+If you are developing pydor and want to test a version you checked out locally,
+you have to make sure Emacs uses that checkout instead of the installed version.
+In general this means you have to evaluate the checked out ~pydor.el~ before the
+first call to main function ~pydor-execute-doctest~. You evaluate it by loading
+that file in Emacs and execute command ~eval-buffer~. If you want to test
+changes to ~pydor.el~, you have to evaluate it again.
+
+If you evaluate ~pydor.el~ /after/ Emacs has evaluated the installed version,
+Emacs will still use the installed Python script instead of the one in your
+checkout.
