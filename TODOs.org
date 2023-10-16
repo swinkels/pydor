@@ -5,10 +5,10 @@
 - [ ] support namespace packages
 - [ ] setup proper Python development environment
 - [ ] describe development of Python part of ~pydor~
-- [ ] support ~verbose~ to set logging to DEBUG option
 
 * Done
 
+- [X] support ~verbose~ to set logging to DEBUG option
 - [X] use logging instead of ~print~
 
 I also updated the log message so the message actually tells a story to the

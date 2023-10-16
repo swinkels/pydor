@@ -176,12 +176,28 @@ def parse_args(argv):
         action="append",
         default=[],
     )
+    parser.add_argument(
+        "--verbose",
+        help="increase verbosity of logging",
+        dest="log_level",
+        action="store_const",
+        const=logging.DEBUG,
+        default=logging.INFO
+    )
 
     return parser.parse_args(argv[1:])
 
 
 if __name__ == "__main__":
+    # we setup logging before we call our code so all of our log messages look
+    # the same
     logging.basicConfig(format="%(message)s", level=logging.INFO)
+
     namespace = parse_args(sys.argv)
+
+    # one of the parameters sets the default log level so we have to update the
+    # log level set by logging.basicConfig
+    logging.getLogger().setLevel(namespace.log_level)
+
     sys.path = namespace.pythonpath + sys.path
     execute_doctest(namespace.module_path, namespace.lineno)

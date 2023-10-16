@@ -38,3 +38,11 @@
   (let ((pydor-pythonpath-directories nil))
     (should (equal "" (pydor--build-pythonpath-parameters))))
   )
+
+(ert-deftest test-build-verbose-parameter-when-specified()
+  (let ((pydor-run-verbose t))
+    (should (equal " --verbose" (pydor--build-verbose-parameter)))))
+
+(ert-deftest test-build-verbose-parameter-when-missing()
+  (let ((pydor-run-verbose nil))
+    (should (equal "" (pydor--build-verbose-parameter)))))

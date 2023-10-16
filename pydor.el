@@ -21,6 +21,13 @@
 The paths in this list will be added to the search path before
 the module with the doctests is loaded.")
 
+(defvar pydor-run-verbose nil
+  "True if and only if the Python script runs with verbose logging.
+
+Verbose logging means that the Python script runs with log level
+DEBUG. If the value is false, the script runs with log level
+INFO.")
+
 (defvar pydor--install-directory
   (file-name-directory (if load-file-name load-file-name buffer-file-name))
   "*Path to the directory that contains the current package.
@@ -38,6 +45,11 @@ script from anywhere")
 (defun pydor--build-pythonpath-parameters()
   (mapconcat
    (lambda (x) (concat " --pythonpath " x)) pydor-pythonpath-directories ""))
+
+(defun pydor--build-verbose-parameter()
+  (if pydor-run-verbose
+      " --verbose"
+    ""))
 
 (defun pydor--move-to-previous-line()
   (eq (forward-line -1) 0))
@@ -64,7 +76,11 @@ script from anywhere")
   (let ((call-script-command (pydor--build-execute-doctest-spec)))
     (if call-script-command
         (compile
-         (concat call-script-command " " (pydor--build-pythonpath-parameters)))
+         (concat
+          call-script-command
+          " "
+          (pydor--build-pythonpath-parameters)
+          (pydor--build-verbose-parameter)))
       (message "Did not find a doctest"))))
 
 ;;; pydor.el ends here

@@ -98,3 +98,26 @@ class TestParseArgs(unittest.TestCase):
         self.assertEqual(namespace.lineno, 30)
 
         self.assertEqual(len(namespace.pythonpath), 0)
+
+    def test_default_verbosity_is_info(self):
+        namespace = parse_args(
+            [
+                "use_finder.py",
+                "/home/user/my_project/src/my_package/my_subpackage/my_module.py",
+                "30"
+            ]
+        )
+
+        self.assertEqual(namespace.log_level, logging.INFO)
+
+    def test_increased_verbosity_is_debug(self):
+        namespace = parse_args(
+            [
+                "use_finder.py",
+                "/home/user/my_project/src/my_package/my_subpackage/my_module.py",
+                "30",
+                "--verbose"
+            ]
+        )
+
+        self.assertEqual(namespace.log_level, logging.DEBUG)
