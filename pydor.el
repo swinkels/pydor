@@ -78,7 +78,6 @@ script from anywhere")
         (compile
          (concat
           call-script-command
-          " "
           (pydor--build-pythonpath-parameters)
           (pydor--build-verbose-parameter)))
       (message "Did not find a doctest"))))
