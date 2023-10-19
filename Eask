@@ -4,7 +4,7 @@
 
 (package-file "pydor.el")
 
-(files "use_finder.py")
+(files "execute_doctests.py")
 
 (script "test" "echo \"Error: no test specified\" && exit 1")
 

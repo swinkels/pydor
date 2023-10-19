@@ -19,7 +19,7 @@
   (let ((spec-components (split-string (pydor--build-execute-doctest-spec))))
     (should (equal (nth 0 spec-components) "python"))
     (should (equal (nth 1 spec-components)
-                   (file-name-concat repo-root-directory "use_finder.py")))
+                   (file-name-concat repo-root-directory "execute_doctests.py")))
     (should (equal (nth 2 spec-components)
                    (file-name-concat repo-root-directory
                                      "test"

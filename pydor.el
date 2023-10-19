@@ -66,7 +66,7 @@ script from anywhere")
 (defun pydor--build-execute-doctest-spec()
   (let ((lineno (pydor--find-delimiter-multiline-docstring)))
     (when (> lineno 0)
-        (concat "python " pydor--install-directory "use_finder.py "
+        (concat "python " pydor--install-directory "execute_doctests.py "
                 (buffer-file-name)
                 " "
                 (number-to-string lineno)))))

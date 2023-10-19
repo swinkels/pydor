@@ -3,7 +3,7 @@ import logging
 import pathlib
 import unittest
 
-from use_finder import get_module_name, get_package_path, parse_args
+from execute_doctests import get_module_name, get_package_path, parse_args
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +62,7 @@ class TestParseArgs(unittest.TestCase):
     def test_with_additional_pythonpath_directories(self):
         namespace = parse_args(
             [
-                "use_finder.py",
+                "execute_docstests.py",
                 "/home/user/my_project/src/my_package/my_subpackage/my_module.py",
                 "30",
                 "--pythonpath",
@@ -85,7 +85,7 @@ class TestParseArgs(unittest.TestCase):
     def test_without_additional_pythonpath_directories(self):
         namespace = parse_args(
             [
-                "use_finder.py",
+                "execute_docstests.py",
                 "/home/user/my_project/src/my_package/my_subpackage/my_module.py",
                 "30",
             ]
@@ -102,7 +102,7 @@ class TestParseArgs(unittest.TestCase):
     def test_default_verbosity_is_info(self):
         namespace = parse_args(
             [
-                "use_finder.py",
+                "execute_docstests.py",
                 "/home/user/my_project/src/my_package/my_subpackage/my_module.py",
                 "30"
             ]
@@ -113,7 +113,7 @@ class TestParseArgs(unittest.TestCase):
     def test_increased_verbosity_is_debug(self):
         namespace = parse_args(
             [
-                "use_finder.py",
+                "execute_docstests.py",
                 "/home/user/my_project/src/my_package/my_subpackage/my_module.py",
                 "30",
                 "--verbose"

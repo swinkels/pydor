@@ -32,7 +32,7 @@ add the following entry to the list of "additional packages" in ~~/.spacemacs~:
 #+begin_src emacs-lisp
    dotspacemacs-additional-packages
    `(
-     (pydor :location (recipe :fetcher github :repo "swinkels/pydor" :files ("pydor.el" "use_finder.py"))
+     (pydor :location (recipe :fetcher github :repo "swinkels/pydor" :files ("pydor.el" "execute_doctests.py"))
      )
 #+end_src
 
