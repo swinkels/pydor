@@ -97,13 +97,28 @@ shortcuts to these Eask commands. The Eask command above is accessible as target
 ~unit-test~ of the Makefile. This is the default target, so just calling ~make~
 runs the unit tests.
 
-If you are developing pydor and want to test a version you checked out locally,
-you have to make sure Emacs uses that checkout instead of the installed version.
-In general this means you have to evaluate the checked out ~pydor.el~ before the
-first call to main function ~pydor-execute-doctest~. You evaluate it by loading
-that file in Emacs and execute command ~eval-buffer~. If you want to test
-changes to ~pydor.el~, you have to evaluate it again.
+If you develop pydor, you will want to work with a local Git checkout instead of
+the installed version. One way to do so is by pointing the pydor entry in
+~dotspacemacs-additional-packages~ to your local checkout:
+#+begin_src emacs-lisp
+   dotspacemacs-additional-packages
+   `(
+     (pydor :location local)
+     )
+#+end_src
+Whith this entry, Spacemacs expects the Git checkout to be present as
+~~/.emacs.d/private/local/pydor~. That means you either checkout pydor in that
+directory, or use a link to the right directory.
 
-If you evaluate ~pydor.el~ /after/ Emacs has evaluated the installed version,
-Emacs will still use the installed Python script instead of the one in your
-checkout.
+If you change ~pydor.el~ and want to test these changes, you have to evaluate
+that file again. To do so, either load that file in Emacs and execute command
+~eval-buffer~, or restart Emacs.
+
+There is another approach if you want to use a local Git checkout for the only
+for your current Emacs session: you evaluate the checked out ~pydor.el~ /before/
+your first call to main function ~pydor-execute-doctest~ [fn:1]. Don't forget to
+re-evaluate ~pydor.el~ when you want to test your changes.
+
+[fn:1] If you evaluate ~pydor.el~ after Emacs has evaluated the installed
+version, Emacs will still use the installed Python script instead of the one in
+your checkout.
