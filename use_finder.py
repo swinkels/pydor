@@ -39,6 +39,12 @@ def execute_doctest(module_path: str, lineno: str):
 
     doctests = doctest.DocTestFinder().find(module)
     for dt in doctests:
+        if dt.lineno is None:
+            # There are scenarios where the doctest.DocTestFinder cannot
+            # retrieve the line number of a doctest. The lineno attribute of
+            # such a doctest will be None so we cannot determine whether that
+            # doctest is the one we're looking for.
+            continue
         # doctest starts line numbering at 0 whereas Emacs starts line
         # numbering at 1: here we correct for that
         if dt.lineno + 1 == int(lineno):
@@ -47,7 +53,9 @@ def execute_doctest(module_path: str, lineno: str):
         logger.error("Unable to find matching doctests")
         sys.exit(1)
 
-    logger.info("Run doctests in docstring at line %d of %s", dt.lineno + 1, module_name)
+    logger.info(
+        "Run doctests in docstring at line %d of %s", dt.lineno + 1, module_name
+    )
     runner = doctest.DocTestRunner(
         checker=None,
         verbose=None,
@@ -182,7 +190,7 @@ def parse_args(argv):
         dest="log_level",
         action="store_const",
         const=logging.DEBUG,
-        default=logging.INFO
+        default=logging.INFO,
     )
 
     return parser.parse_args(argv[1:])

@@ -8,6 +8,7 @@
 
 * Done
 
+- [X] handle the case that ~dt.lineno~ is ~None~
 - [X] support ~verbose~ to set logging to DEBUG option
 - [X] use logging instead of ~print~
 
