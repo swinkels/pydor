@@ -5,9 +5,11 @@
 - [ ] support namespace packages
 - [ ] setup proper Python development environment
 - [ ] describe development of Python part of ~pydor~
+- [ ] configure flake8 and black
 
 * Done
 
+- [X] support stand-alone Python modules
 - [X] handle the case that ~dt.lineno~ is ~None~
 - [X] support ~verbose~ to set logging to DEBUG option
 - [X] use logging instead of ~print~

@@ -1,6 +1,7 @@
 import argparse
 import doctest
 import importlib
+import importlib.util
 import logging
 import pathlib
 import sys
@@ -24,18 +25,13 @@ def execute_doctest(module_path: str, lineno: str):
     package_path = get_package_path(
         path, lambda directory: (directory / "__init__.py").exists()
     )
-    logger.debug("Module has package path %s", package_path)
+    if package_path is None:
+        module = import_standalone_module(path)
+    else:
+        module = import_module_from_package(path, package_path)
 
-    module_name = get_module_name(pathlib.Path.cwd(), sys.path, path, package_path)
-    if module_name is None:
-        logger.error(
-            "Unable to import module: no sys.path entry completes package path"
-        )
+    if module is None:
         sys.exit(1)
-
-    logger.info("Import module as '%s'", module_name)
-
-    module = importlib.import_module(module_name)
 
     doctests = doctest.DocTestFinder().find(module)
     for dt in doctests:
@@ -53,9 +49,7 @@ def execute_doctest(module_path: str, lineno: str):
         logger.error("Unable to find matching doctests")
         sys.exit(1)
 
-    logger.info(
-        "Run doctests in docstring at line %d of %s", dt.lineno + 1, module_name
-    )
+    logger.info("Run doctests in docstring at line %d of %s", dt.lineno + 1, path)
     runner = doctest.DocTestRunner(
         checker=None,
         verbose=None,
@@ -64,10 +58,67 @@ def execute_doctest(module_path: str, lineno: str):
     runner.run(dt)
 
 
+def import_module_from_package(
+    module_to_import: pathlib.Path, module_in_package: pathlib.Path
+):
+    """Import the module as part of a package and return the imported module.
+
+    If this function cannot import the module, it returns None or raises an
+    exception.
+
+    :param module_to_import: path to the module to be imported
+    :param module_in_package: relative path to the module inside an importable
+        package
+
+    """
+    module_name = get_module_name(
+        pathlib.Path.cwd(), sys.path, module_to_import, module_in_package
+    )
+    if module_name is None:
+        logger.error(
+            "Unable to import module: no sys.path entry completes package path"
+        )
+        return None
+
+    logger.info("Import module %s", module_name)
+
+    return importlib.import_module(module_name)
+
+
+def import_standalone_module(module_to_import: pathlib.Path):
+    """Import the standalone module by its path and return the imported module.
+
+    This function imports the module as if it's not part of a package, hence
+    the term "standalone". If it cannot import the module, it returns None or
+    raises an exception.
+
+    :param module_to_import: path to the module to be imported
+
+    """
+    logger.info("Import standalone module %s", module_to_import)
+
+    module_name = module_to_import.stem
+    spec = importlib.util.spec_from_file_location(module_name, module_to_import)
+    if spec is None or spec.loader is None:
+        logger.error(
+            "Unable to import module: no loader can be created for the given module"
+        )
+        return None
+
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+
+    return module
+
+
 def get_package_path(
     module_path: pathlib.Path, contains_init=lambda d: (d / "__init__.py").exists()
 ):
     """Return the part of the given module path that is inside a package.
+
+    If no part of the given module path is inside a package, this functions
+    returns None.
 
     For example, assume you're developing a package that starts at
 
@@ -96,6 +147,10 @@ def get_package_path(
     it is much easier to unit test the current function.
 
     """
+    if not contains_init(module_path.parent):
+        # the module does not seem to be part of a package
+        return None
+
     package_path = pathlib.Path(module_path.name)
 
     path = module_path.parent
