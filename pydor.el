@@ -21,12 +21,17 @@
 The paths in this list will be added to the search path before
 the module with the doctests is loaded.")
 
-(defvar pydor-run-verbose nil
+(defcustom pydor nil
+  "Run Python doctests at point"
+  :group 'Tools)
+
+(defcustom pydor-run-verbose nil
   "True if and only if the Python script runs with verbose logging.
 
 Verbose logging means that the Python script runs with log level
 DEBUG. If the value is false, the script runs with log level
-INFO.")
+INFO."
+  :type 'boolean :group 'pydor)
 
 (defvar pydor--install-directory
   (file-name-directory (if load-file-name load-file-name buffer-file-name))
