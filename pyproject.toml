@@ -1,0 +1,6 @@
+[tool.black]
+# nothing to configure but know that the Python files in this project are
+# formatted by Black
+
+[tool.isort]
+profile="black"
