@@ -4,11 +4,12 @@
 - [ ] allow configuration of doctest options such as ~doctest.NORMALIZE_WHITESPACE~
 - [ ] support namespace packages
 - [ ] setup automatic builds on GitHub
-- [ ] setup proper Python development environment
+- [ ] hide log statement during unit tests
 - [ ] describe development of Python part of ~pydor~
 
 * Done
 
+- [X] setup proper Python development environment
 - [X] configure flake8 and black
 - [X] support stand-alone Python modules
 - [X] handle the case that ~dt.lineno~ is ~None~

@@ -9,3 +9,6 @@ python-static-analysis:
 	flake8 execute_doctests.py test_execute_doctests.py
 	black --check execute_doctests.py test_execute_doctests.py
 	isort --check execute_doctests.py test_execute_doctests.py
+
+python-unit-tests:
+	python -m unittest test_execute_doctests.py
