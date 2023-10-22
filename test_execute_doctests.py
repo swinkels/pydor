@@ -5,9 +5,13 @@ import pathlib
 import sys
 import unittest
 
-from execute_doctests import (get_module_name, get_package_path,
-                              import_module_from_package,
-                              import_standalone_module, parse_args)
+from execute_doctests import (
+    get_module_name,
+    get_package_path,
+    import_module_from_package,
+    import_standalone_module,
+    parse_args,
+)
 
 logger = logging.getLogger(__name__)
 

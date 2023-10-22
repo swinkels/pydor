@@ -3,12 +3,13 @@
 - [ ] support raw docstrings, viz. ~r"""..."""~
 - [ ] allow configuration of doctest options such as ~doctest.NORMALIZE_WHITESPACE~
 - [ ] support namespace packages
+- [ ] setup automatic builds on GitHub
 - [ ] setup proper Python development environment
 - [ ] describe development of Python part of ~pydor~
-- [ ] configure flake8 and black
 
 * Done
 
+- [X] configure flake8 and black
 - [X] support stand-alone Python modules
 - [X] handle the case that ~dt.lineno~ is ~None~
 - [X] support ~verbose~ to set logging to DEBUG option
