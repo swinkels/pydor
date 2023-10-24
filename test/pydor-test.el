@@ -11,6 +11,10 @@
   (should (pydor--delimits-multiline-docstring "\"\"\"Return `None`."))
   (should (pydor--delimits-multiline-docstring "    \"\"\"Return `None`.")))
 
+(ert-deftest test-delimits-raw-multiline-docstring()
+  (should (pydor--delimits-multiline-docstring "r\"\"\"Return `None`."))
+  (should (pydor--delimits-multiline-docstring "    r\"\"\"Return `None`.")))
+
 (ert-deftest test-build-spec-for-single-module-in-another-directory()
   (find-file "test/test-python-modules/single_module.py")
   (beginning-of-buffer)

@@ -1,6 +1,5 @@
 - [ ] format Lisp code according to Batsov style guide
 - [ ] for tests, leave visited file on teardown
-- [ ] support raw docstrings, viz. ~r"""..."""~
 - [ ] allow configuration of doctest options such as ~doctest.NORMALIZE_WHITESPACE~
 - [ ] support namespace packages
 - [ ] setup automatic builds on GitHub
@@ -9,6 +8,7 @@
 
 * Done
 
+- [X] support raw docstrings, viz. ~r"""..."""~
 - [X] setup proper Python development environment
 - [X] configure flake8 and black
 - [X] support stand-alone Python modules

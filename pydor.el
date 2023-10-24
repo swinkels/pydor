@@ -42,7 +42,7 @@ doctests and runs the selected one. This allows us to call that
 script from anywhere")
 
 (defun pydor--delimits-multiline-docstring(line)
-  (not (eq (string-match-p "^[[:blank:]]*\"\"\"" line) nil)))
+  (not (eq (string-match-p "^[[:blank:]]*r?\"\"\"" line) nil)))
 
 (defun pydor--current-line()
   (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
