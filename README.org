@@ -1,6 +1,8 @@
 This repo contains Emacs package pydor, which is short for "Python doctest
 runner". This package lets you execute the Python doctests in the docstring
-at point.
+at point. The following animated GIF shows how it works in Spacemacs:
+
+[[./pydor-runs-doctests.gif]]
 
 * Background
 
