@@ -5,8 +5,6 @@
 
 """
 
-import doctest
-
 
 def return_none():
     """Return `None`.
