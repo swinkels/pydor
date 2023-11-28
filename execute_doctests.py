@@ -10,6 +10,47 @@ from typing import Optional
 logger = logging.getLogger(__name__)
 
 
+class MyDocTestRunner(doctest.DocTestRunner):
+    def report_success(self, out, test, example, got):
+        """Report a "." for each successful test in non-verbose mode.
+
+        In verbose mode, fall-back to the parent method.
+
+        """
+        if self._verbose:
+            super().report_success(out, test, example, got)
+        else:
+            out(".")
+
+    def report_failure(self, out, test, example, got):
+        """Also report a "F\n" for each unsuccessful test in non-verbose mode.
+
+        In non-verbose mode, this method first reports "F\n" and then calls the
+        parent method. The newline is there so the divider that is printed by
+        the parent method starts on a new line.
+
+        In verbose mode, just fall-back to the parent method.
+
+        """
+        if not self._verbose:
+            out("F\n")
+        super().report_failure(out, test, example, got)
+
+    def report_unexpected_exception(self, out, test, example, exc_info):
+        """Also report a "F\n" for each unsuccessful test in non-verbose mode.
+
+        In non-verbose mode, this method first reports "F\n" and then calls the
+        parent method. The newline is there so the divider that is printed by
+        the parent method starts on a new line.
+
+        In verbose mode, just fall-back to the parent method.
+
+        """
+        if not self._verbose:
+            out("F\n")
+        super().report_unexpected_exception(out, test, example, exc_info)
+
+
 def execute_doctest(module_path: str, lineno: str):
     """Execute the tests in the docstring at the given location.
 
@@ -50,7 +91,7 @@ def execute_doctest(module_path: str, lineno: str):
         sys.exit(1)
 
     logger.info("Run doctests in docstring at line %d of %s", dt.lineno + 1, path)
-    runner = doctest.DocTestRunner(
+    runner = MyDocTestRunner(
         checker=None,
         verbose=None,
         optionflags=doctest.FAIL_FAST | doctest.NORMALIZE_WHITESPACE,

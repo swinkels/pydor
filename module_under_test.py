@@ -9,7 +9,6 @@ import doctest
 
 
 def return_none():
-
     """Return `None`.
 
     >>> v = return_none()
@@ -20,6 +19,7 @@ def return_none():
 
     """
     return None
+
 
 docstring = """Return `None`.
 
